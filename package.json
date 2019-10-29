@@ -1,0 +1,21 @@
+{
+  "name": "@atlas/atlas",
+  "private": true,
+  "scripts": {
+    "cli": "moleculer connect Redis --ns atlas",
+    "dev": "npm run docker:up; npm run cli",
+    "docker:build": "docker-compose build --no-cache",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "postinstall": "lerna bootstrap --hoist",
+    "postdev": "npm run docker:down",
+    "restart": "docker-compose restart",
+    "logs": "docker-compose logs -f",
+    "logs:rest-api-gateway": "docker-compose logs -f rest-api-gateway",
+    "logs:task-service": "docker-compose logs -f task-service"
+  },
+  "devDependencies": {
+    "lerna": "^3.18.3",
+    "moleculer-cli": "^0.6.6"
+  }
+}

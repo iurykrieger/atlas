@@ -1,0 +1,39 @@
+{
+  "name": "@atlas/rest-api-gateway",
+  "version": "1.0.0",
+  "description": "Micro-service to serve other using REST API",
+  "scripts": {
+    "dev": "moleculer-runner --env --repl --hot services",
+    "start": "moleculer-runner --hot services",
+    "ci": "jest --watch",
+    "test": "jest --coverage",
+    "lint": "eslint test services *.js --fix"
+  },
+  "keywords": [
+    "microservices",
+    "moleculer"
+  ],
+  "author": "",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
+    "moleculer-repl": "^0.5.7"
+  },
+  "dependencies": {
+    "moleculer-web": "^0.8.5",
+    "ioredis": "^4.14.0",
+    "moleculer": "^0.13.9"
+  },
+  "engines": {
+    "node": ">= 8.x.x"
+  },
+  "jest": {
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node",
+    "rootDir": "./services",
+    "roots": [
+      "../test"
+    ]
+  }
+}

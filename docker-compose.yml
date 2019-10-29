@@ -1,0 +1,101 @@
+version: "3.2"
+
+services:
+
+  rest-api-gateway:
+    build:
+      context: packages/rest-api-gateway
+    image: atlas-rest-api-gateway
+    env_file: packages/rest-api-gateway/env/docker-compose.env
+    ports:
+      - 3030:3030
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=api"
+      - "traefik.port=3030"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.frontend.rule=PathPrefix:/"
+    volumes:
+      - ./packages/rest-api-gateway:/home/node/node_app/app
+    depends_on:
+      - redis
+      - task-service
+      - alert-service
+    networks:
+      - internal
+
+  task-service:
+    build:
+      context: packages/task-service
+    image: atlas-task-service
+    env_file: packages/task-service/env/docker-compose.env
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - ./packages/task-service:/home/node/node_app/app
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - internal
+
+  alert-service:
+    build:
+      context: packages/alert-service
+    image: atlas-alert-service
+    env_file: packages/alert-service/env/docker-compose.env
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - ./packages/alert-service:/home/node/node_app/app
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - internal
+
+  redis:
+    image: redis:alpine
+    container_name: atlas-redis
+    ports:
+      - "6379:6379"
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - ./database/redis:/data
+    networks:
+      - internal
+
+  mongodb:
+    image: mongo:latest
+    container_name: atlas-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./database/mongodb:/data/db
+    networks:
+      - internal
+
+  traefik:
+    image: traefik:1.7
+    container_name: atlas-traefik
+    command:
+      - "--api"
+      - "--docker"
+      - "--docker.watch"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=traefik"
+      - "traefik.port=8080"
+    ports:
+      - 3000:80
+      - 3001:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+    networks:
+      - internal
+      - default
+
+networks:
+  internal:
