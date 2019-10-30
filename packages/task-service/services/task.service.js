@@ -154,7 +154,6 @@ module.exports = {
        * @returns { Promise.<import('asana').resources.Users.Type> } Asana User Type.
        */
       handler () {
-        console.log('chamou o handler')
         return this.getUser()
       }
     },
@@ -319,8 +318,34 @@ module.exports = {
       }
     },
 
-    updateTaskOccurrences (task) {
-      // TODO: Update task occurrences operation.
+    async updateTaskOccurrences (gid, ocurrenceDate, count) {
+      try {
+        const task = await this.adapter.findById(gid)
+        const date = ocurrenceDate.toLocaleDateString(
+          'pt-BR',
+          {
+            year: 'numeric',
+            day: '2-digit',
+            month: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: 'America/Sao_Paulo'
+          }
+        )
+        const ocurrenceRegex = /^[\W\w]+-----/
+        const ocurrenceLabel = (count, lastOcurrence) => `Alerta ocorreu ${count}x.\nÚltimo em ${lastOcurrence}.\n-----\n`
+
+        return this.updateTask(gid, {
+          name: task.name.replace(/^(?:\[\d+x\])?\s*/, `[${count}x] `),
+          notes: task.notes.match(ocurrenceRegex)
+            ? task.notes.replace(ocurrenceRegex, ocurrenceLabel(count, date))
+            : ocurrenceLabel(count, date).concat(task.notes)
+        })
+      } catch (error) {
+        throw new AsanaError('Could not update task occurences', error)
+      }
     },
 
     /**
