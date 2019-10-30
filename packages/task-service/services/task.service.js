@@ -132,6 +132,12 @@ module.exports = {
         id: { type: 'string' },
         data: { type: 'object' }
       },
+      /**
+       * Deletes a task based on its id.
+       *
+       * @param { import('moleculer').Context } ctx - Moleculer context.
+       * @returns { Promise.<import('asana').resources.Tasks.Type> } Asana updated task.
+       */
       handler (ctx) {
         return this.updateTask(ctx.params.id, ctx.params.data)
       }
@@ -141,6 +147,12 @@ module.exports = {
       params: {
         id: { type: 'string' }
       },
+      /**
+       * Deletes a task based on its id.
+       *
+       * @param { import('moleculer').Context } ctx - Moleculer context.
+       * @returns { Promise.<void> } Promise to delete action.
+       */
       handler (ctx) {
         return this.deleteTask(ctx.params.id)
       }
@@ -150,6 +162,12 @@ module.exports = {
       params: {
         id: { type: 'string' }
       },
+      /**
+       * Closes a task based on its id.
+       *
+       * @param { import('moleculer').Context } ctx - Moleculer context.
+       * @returns { Promise.<import('asana').resources.Tasks.Type> } Asana closed task.
+       */
       handler (ctx) {
         return this.closeTask(ctx.params.id)
       }
@@ -188,14 +206,29 @@ module.exports = {
    * Events.
    */
   events: {
+    /**
+     * Creates a task based on the received alert payload.
+     *
+     * @param { Alert } alert - Payload alert.
+     */
     'alert.created' (alert) {
       this.createTaskByAlert(alert)
     },
+    /**
+     * Closes the task corresponding to the received alert payload.
+     *
+     * @param { Alert } alert - Payload alert.
+     */
     'alert.closed' (alert) {
-      this.closeTaskByAlert(alert)
+
     },
+    /**
+     * Updates the task ocurrences corresponding to the received alert payload.
+     *
+     * @param { Alert } alert - Payload alert.
+     */
     'alert.updated' (alert) {
-      this.updateTaskOccurrences()
+
     }
   },
 
@@ -261,6 +294,12 @@ module.exports = {
       }
     },
 
+    /**
+     * Closes a task at Asaana and update its state at the database.
+     *
+     * @param { string } gid - Asana task id.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Database closed task.
+     */
     async closeTask (gid) {
       try {
         const asanaTask = await this.updateTask(gid, { completed: true })
@@ -270,12 +309,26 @@ module.exports = {
       }
     },
 
+    /**
+     * Updates a task at Asana and update its state at the database.
+     *
+     * @param { string } gid - Asana task id.
+     * @param { import('asana').resources.Tasks.CreateParams } taskData - Task data to be updated.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } - Database updated task.
+     */
     async updateTask (gid, taskData) {
       const asanaTask = await this.updateAsanaTask(gid, taskData)
       const databaseTask = await this.updateDatabaseTask(asanaTask)
       return databaseTask
     },
 
+    /**
+     * Updates the given task content at Asana.
+     *
+     * @param { string } gid - Asana task id.
+     * @param { import('asana').resources.Tasks.CreateParams } taskData - Task data to be updated.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } - Asana updated task.
+     */
     async updateAsanaTask (gid, taskData) {
       try {
         const asanaTask = await this.client.tasks.update(gid, taskData)
@@ -285,6 +338,12 @@ module.exports = {
       }
     },
 
+    /**
+     * Updates the state of an Asana task into the database.
+     *
+     * @param { import('asana').resources.Tasks.Type } asanaTask - Asana task.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } - Database updated task.
+     */
     async updateDatabaseTask (asanaTask) {
       try {
         const databaseTask = await this.adapter.updateById(asanaTask.gid, asanaTask)
@@ -296,11 +355,23 @@ module.exports = {
       }
     },
 
+    /**
+     * Deletes a task at Asana and remove it at the database as well.
+     *
+     * @param { string } gid - Asana task id.
+     * @returns { Promise.<void> } Promise of the remove action.
+     */
     async deleteTask (gid) {
       await this.deleteAsanaTask(gid)
       await this.deleteDatabaseTask(gid)
     },
 
+    /**
+     * Deletes a task at Asana.
+     *
+     * @param { string } gid - Asana task id.
+     * @returns { Promise.<void> } Promise of the remove action.
+     */
     async deleteAsanaTask (gid) {
       try {
         await this.client.tasks.delete(gid)
@@ -309,6 +380,12 @@ module.exports = {
       }
     },
 
+    /**
+     * Deletes a task at the database.
+     *
+     * @param { string } gid - Asana task id.
+     * @returns { Promise.<void> } Promise of the remove action.
+     */
     async deleteDatabaseTask (gid) {
       try {
         await this.adapter.removeById(gid)
@@ -332,6 +409,14 @@ module.exports = {
       }
     },
 
+    /**
+     * Updates Asana task occurrence information.
+     *
+     * @param { string } gid - Asana task id.
+     * @param { Date } ocurrenceDate - Date of the last occurrence.
+     * @param { number } count - Current number of occurrences.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Database updated task.
+     */
     async updateTaskOccurrences (gid, ocurrenceDate, count) {
       try {
         const task = await this.adapter.findById(gid)
