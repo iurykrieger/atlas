@@ -19,12 +19,12 @@ const TaskSchema = mongoose.Schema({
     }, { _id: false })
   ],
   assignee: mongoose.Schema({
-    gid: { type: Number, required: true },
+    gid: { type: String, required: true },
     name: { type: String, required: true }
   }, { _id: false }),
   followers: [
     mongoose.Schema({
-      gid: { type: Number, required: true },
+      gid: { type: String, required: true },
       name: { type: String, required: true }
     }, { _id: false })
   ],
@@ -34,14 +34,36 @@ const TaskSchema = mongoose.Schema({
       name: { type: String, required: true }
     }, { _id: false })
   ]
+}, {
+  toObject: {
+    transform: function (doc, ret) {
+      delete ret.id
+      delete ret._id
+    },
+    virtuals: true
+  },
+  toJSON: {
+    transform: function (doc, ret) {
+      delete ret.id
+      delete ret._id
+    },
+    virtuals: true
+  }
 })
+
+TaskSchema.methods.toAsana = function () {
+  const task = this.toObject()
+  return {
+    name: task.name,
+    notes: task.notes,
+    completed: task.completed,
+    due_on: task.due_on,
+    workspace: task.workspace.gid
+  }
+}
 
 TaskSchema.virtual('gid').get(function () {
   return this._id
-})
-
-TaskSchema.set('toJSON', {
-  virtuals: true
 })
 
 module.exports = mongoose.model('Task', TaskSchema)

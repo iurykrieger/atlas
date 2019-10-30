@@ -13,14 +13,14 @@ const TaskModel = require('./models/task')
  * @property { string } data.message
  */
 class AsanaError extends Errors.MoleculerError {
-  constructor (msg, status, data) {
-    super(msg, status, 'ASANA_ERROR', data)
+  constructor (msg, error) {
+    super(`${msg}: ${error.message}`, error.status, 'ASANA_ERROR', error.value)
   }
 }
 
 class MongooseError extends Errors.MoleculerError {
-  constructor (msg, status, data) {
-    super(msg, status, 'MONGOOSE_ERROR', data)
+  constructor (msg, error) {
+    super(`${msg}: ${error.message}`, error.status, 'MONGOOSE_ERROR', error.value)
   }
 }
 
@@ -127,6 +127,16 @@ module.exports = {
       }
     },
 
+    update: {
+      params: {
+        id: { type: 'string' },
+        data: { type: 'object' }
+      },
+      handler (ctx) {
+        return this.updateTask(ctx.params.id, ctx.params.data)
+      }
+    },
+
     remove: {
       params: {
         id: { type: 'string' }
@@ -223,7 +233,7 @@ module.exports = {
         const asanaTask = await this.client.tasks.create({ workspace: this.settings.asana.workspace, ...taskData })
         return asanaTask
       } catch (error) {
-        throw new AsanaError(`Could not create Asana task: ${error.message}`, error.status, error.value)
+        throw new AsanaError('Could not create Asana task', error)
       }
     },
 
@@ -239,7 +249,7 @@ module.exports = {
         return databaseTask
       } catch (error) {
         await this.deleteAsanaTask(asanaTask.gid)
-        throw new MongooseError(`Could not create Mongoose task: ${error.message}`, error.status, error.value)
+        throw new MongooseError('Could not create Mongoose task', error)
       }
     },
 
@@ -247,8 +257,30 @@ module.exports = {
       // TODO: Close task operation.
     },
 
-    updateTask (task) {
-      // TODO: Update task operation.
+    async updateTask (gid, taskData) {
+      const asanaTask = await this.updateAsanaTask(gid, taskData)
+      const databaseTask = await this.updateDatabaseTask(asanaTask)
+      return databaseTask
+    },
+
+    async updateAsanaTask (gid, taskData) {
+      try {
+        const asanaTask = await this.client.tasks.update(gid, taskData)
+        return asanaTask
+      } catch (error) {
+        throw new AsanaError('Could not update Asana task', error)
+      }
+    },
+
+    async updateDatabaseTask (asanaTask) {
+      try {
+        const databaseTask = await this.adapter.updateById(asanaTask.gid, asanaTask)
+        return databaseTask
+      } catch (error) {
+        const databaseTask = await this.adapter.findById(asanaTask.gid)
+        await this.updateAsanaTask(asanaTask.gid, databaseTask.toAsana())
+        throw new MongooseError('Could not update Mongoose task', error)
+      }
     },
 
     async deleteTask (gid) {
@@ -260,7 +292,7 @@ module.exports = {
       try {
         await this.client.tasks.delete(gid)
       } catch (error) {
-        throw new AsanaError(`Could not delete asana task: ${error.message}`, error.status, error.value)
+        throw new AsanaError('Could not delete asana task', error)
       }
     },
 
@@ -268,7 +300,7 @@ module.exports = {
       try {
         await this.adapter.removeById(gid)
       } catch (error) {
-        throw new MongooseError(`Could not delete database task: ${error.message}`, error.status, error.value)
+        throw new MongooseError('Could not delete database task', error)
       }
     },
 
@@ -282,8 +314,8 @@ module.exports = {
       try {
         const { data: workspaces } = await this.client.workspaces.findAll()
         return workspaces.find(workspace => workspace.name === name) || {}
-      } catch (err) {
-        throw new Errors.MoleculerError(err.message, err.status, null, err.value)
+      } catch (error) {
+        throw new AsanaError(`There's been an error finding the workspace ${name}`, error)
       }
     },
 
