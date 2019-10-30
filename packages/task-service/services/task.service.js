@@ -146,6 +146,15 @@ module.exports = {
       }
     },
 
+    close: {
+      params: {
+        id: { type: 'string' }
+      },
+      handler (ctx) {
+        return this.closeTask(ctx.params.id)
+      }
+    },
+
     getUser: {
       cache: true,
       /**
@@ -252,8 +261,13 @@ module.exports = {
       }
     },
 
-    closeTask (gid) {
-      // TODO: Close task operation.
+    async closeTask (gid) {
+      try {
+        const asanaTask = await this.updateTask(gid, { completed: true })
+        return asanaTask
+      } catch (error) {
+        throw new AsanaError('Could not close Asana task', error)
+      }
     },
 
     async updateTask (gid, taskData) {
