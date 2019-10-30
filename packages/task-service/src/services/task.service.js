@@ -1,4 +1,5 @@
 const Asana = require('asana')
+const { Errors } = require('moleculer')
 const { MongooseError, AsanaError } = require('../utils/errors')
 const DbService = require('moleculer-db')
 const MongooseAdapter = require('moleculer-db-adapter-mongoose')
@@ -31,56 +32,16 @@ module.exports = {
         'asana-enable': 'string_ids,new_sections'
       },
       workspace: '2653227806782', // Chaordic
-      token: process.env.ASANA_TOKEN,
-      projects: {
-        ftt: {
-          id: '520293271448220',
-          sections: {
-            v2: '1135307252592043'
-          }
-        },
-        'devs-atd': {
-          id: '24457451196652',
-          sections: {
-            p0: '24457451196655'
-          }
-        },
-        'dsns-atd': {
-          id: '23236706094881',
-          sections: {
-            alerts: '909056654431347'
-          }
-        },
-        'n1-atd': {
-          id: '743516892538171',
-          sections: {
-            catalogAlerts: '753691956828190'
-          }
-        },
-        'qas-atd': {
-          id: '24595803650935',
-          sections: {
-            p0: '24597094114090'
-          }
-        }
-      }
-    },
-    alerts: {
-      'alert.routine.full.crash': [{
-        project: 'devs-atd',
-        section: 'p0'
-      }],
-      'alert.teste': [{
-        project: 'devs-atd',
-        section: 'p0'
-      }]
+      token: process.env.ASANA_TOKEN
     }
   },
 
   /**
    * Service dependencies.
    */
-  dependencies: [],
+  dependencies: [
+    'alertTemplate'
+  ],
 
   /**
    * Actions.
@@ -187,6 +148,19 @@ module.exports = {
        */
       handler (ctx) {
         return this.getWorkspaceByName(ctx.params.name)
+      }
+    },
+
+    getProjects: {
+      cache: true,
+
+      /**
+       * Get all Asana workspace projects.
+       *
+       * @returns { import('asana').resources.Projects.Type[] } - List of workspace projects.
+       */
+      handler () {
+        return this.getWorkspaceProjects()
       }
     }
   },
@@ -481,6 +455,15 @@ module.exports = {
         project: this.settings.asana.projects[project].id,
         section: this.settings.asana.projects[project].sections[section]
       }))
+    },
+
+    async getWorkspaceProjects () {
+      try {
+        const { data: projects = [] } = await this.client.projects.findByWorkspace(this.settings.asana.workspace)
+        return projects
+      } catch (error) {
+        throw new AsanaError('Could not get the workspace projects', error)
+      }
     }
   },
 
