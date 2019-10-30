@@ -129,10 +129,10 @@ module.exports = {
 
     remove: {
       params: {
-        gid: { type: 'string' }
+        id: { type: 'string' }
       },
       handler (ctx) {
-        return this.deleteTask(ctx.params.gid)
+        return this.deleteTask(ctx.params.id)
       }
     },
 
@@ -249,6 +249,11 @@ module.exports = {
 
     updateTask (task) {
       // TODO: Update task operation.
+    },
+
+    async deleteTask (gid) {
+      await this.deleteAsanaTask(gid)
+      await this.deleteDatabaseTask(gid)
     },
 
     async deleteAsanaTask (gid) {
