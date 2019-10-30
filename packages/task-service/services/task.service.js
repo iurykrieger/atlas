@@ -12,6 +12,17 @@ const TaskModel = require('./models/task')
  * @property { object } data
  * @property { string } data.message
  */
+class AsanaError extends Errors.MoleculerError {
+  constructor (msg, status, data) {
+    super(msg, status, 'ASANA_ERROR', data)
+  }
+}
+
+class MongooseError extends Errors.MoleculerError {
+  constructor (msg, status, data) {
+    super(msg, status, 'MONGOOSE_ERROR', data)
+  }
+}
 
 module.exports = {
   name: 'task',
@@ -117,8 +128,11 @@ module.exports = {
     },
 
     remove: {
+      params: {
+        gid: { type: 'string' }
+      },
       handler (ctx) {
-        return this.deleteTask(ctx.params.id)
+        return this.deleteTask(ctx.params.gid)
       }
     },
 
@@ -187,21 +201,45 @@ module.exports = {
     },
 
     /**
-     * Creates a task into wanted project.
+     * Creates a task into Asana wanted project and inserts it into the database.
      *
-     * @param { import('asana').resources.Tasks.Type } task - Asana task create params.
+     * @param { import('asana').resources.Tasks.Type } taskData - Asana task create params.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Database created task based on Asana created one.
+     */
+    async createTask (taskData) {
+      const asanaTask = await this.createAsanaTask(taskData)
+      const databaseTask = await this.createDatabaseTask(asanaTask)
+      return databaseTask
+    },
+
+    /**
+     * Creates a task into Asana wanted project.
+     *
+     * @param { import('asana').resources.Tasks.Type } taskData - Asana task create params.
      * @returns { Promise.<import('asana').resources.Tasks.Type> } Asana created task.
      */
-    async createTask (task) {
+    async createAsanaTask (taskData) {
       try {
-        const asanaCreatedTask = await this.client.tasks.create({ ...task, workspace: this.settings.asana.workspace })
-        const databaseCreatedTask = await this.adapter
-          .insert({ ...asanaCreatedTask, _id: asanaCreatedTask.id })
-          // .catch(() => this.deleteTask(asanaCreatedTask.gid))
-        return databaseCreatedTask
-      } catch (err) {
-        console.error(err.value)
-        throw new Errors.MoleculerError(err.message, err.status, null, err.value)
+        const asanaTask = await this.client.tasks.create({ workspace: this.settings.asana.workspace, ...taskData })
+        return asanaTask
+      } catch (error) {
+        throw new AsanaError(`Could not create Asana task: ${error.message}`, error.status, error.value)
+      }
+    },
+
+    /**
+     * Creates a taask into database based on Asana created one.
+     *
+     * @param { import('asana').resources.Tasks.Type } asanaTask - Asana created task.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Database created task.
+     */
+    async createDatabaseTask (asanaTask) {
+      try {
+        const databaseTask = await this.adapter.insert({ ...asanaTask, _id: asanaTask.gid })
+        return databaseTask
+      } catch (error) {
+        await this.deleteAsanaTask(asanaTask.gid)
+        throw new MongooseError(`Could not create Mongoose task: ${error.message}`, error.status, error.value)
       }
     },
 
@@ -213,12 +251,19 @@ module.exports = {
       // TODO: Update task operation.
     },
 
-    async deleteTask (gid) {
+    async deleteAsanaTask (gid) {
       try {
         await this.client.tasks.delete(gid)
-        await this.adapter.remove(gid)
-      } catch (err) {
-        throw new Errors.MoleculerError(err.message, err.status, null, err.value)
+      } catch (error) {
+        throw new AsanaError(`Could not delete asana task: ${error.message}`, error.status, error.value)
+      }
+    },
+
+    async deleteDatabaseTask (gid) {
+      try {
+        await this.adapter.removeById(gid)
+      } catch (error) {
+        throw new MongooseError(`Could not delete database task: ${error.message}`, error.status, error.value)
       }
     },
 
