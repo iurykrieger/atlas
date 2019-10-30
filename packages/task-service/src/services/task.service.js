@@ -208,8 +208,10 @@ module.exports = {
      */
     async createTaskByAlert (alert) {
       const alertTemplate = await this.broker.call('alertTemplate.get', { id: alert.type })
-      if (alertTemplate) {
-        return this.createTask(this.parseAlertIntoTask(alertTemplate, alert))
+      if (alertTemplate && alert) {
+        const asanaTask = await this.createAsanaTask(this.parseAlertIntoTask(alertTemplate, alert))
+        const databaseTask = await this.createDatabaseTask({ ...asanaTask, alert: alert.id })
+        return databaseTask
       }
     },
 

@@ -33,7 +33,8 @@ const TaskSchema = mongoose.Schema({
       gid: { type: String, required: true },
       name: { type: String, required: true }
     }, { _id: false })
-  ]
+  ],
+  alert: { type: String }
 }, {
   toObject: {
     transform: function (doc, ret) {
