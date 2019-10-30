@@ -2,6 +2,17 @@ const DbService = require('moleculer-db')
 const MongooseAdapter = require('moleculer-db-adapter-mongoose')
 const AlertTemplateModel = require('../models/alertTemplate')
 
+/**
+ * @typedef AlertTemplate
+ * @property { string } id - Alert type.
+ * @property { string } description - Alert template description.
+ * @property { string[] } tags - Asana task tags.
+ * @property { number } limitDate - Task due date.
+ * @property { object[] } memberships
+ * @property { string } memberships[].project
+ * @property { string } memberships[].section
+ */
+
 module.exports = {
   name: 'alertTemplate',
   /**
@@ -26,7 +37,14 @@ module.exports = {
    * Actions.
    */
   actions: {
-
+    get: {
+      params: {
+        id: { type: 'string', required: true }
+      },
+      handler (ctx) {
+        return this.getById(ctx.params.id)
+      }
+    }
   },
 
   /**
@@ -40,7 +58,14 @@ module.exports = {
    * Methods.
    */
   methods: {
-
+    async getById (id) {
+      try {
+        const template = await this.adapter.findById(id)
+        return template
+      } catch (error) {
+        return null
+      }
+    }
   },
 
   /**

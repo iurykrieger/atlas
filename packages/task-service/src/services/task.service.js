@@ -174,7 +174,7 @@ module.exports = {
      *
      * @param { Alert } alert - Payload alert.
      */
-    'alert.created' (alert) {
+    async 'alert.created' (alert) {
       this.createTaskByAlert(alert)
     },
     /**
@@ -206,8 +206,11 @@ module.exports = {
      * @param { Alert } alert - Payload alert.
      * @returns { Promise.<import('asana').resources.Tasks.Type> } - Promise of created task.
      */
-    createTaskByAlert (alert) {
-      return this.createTask(this.parseAlertIntoTask(alert))
+    async createTaskByAlert (alert) {
+      const alertTemplate = await this.broker.call('alertTemplate.get', { id: alert.type })
+      if (alertTemplate) {
+        return this.createTask(this.parseAlertIntoTask(alertTemplate, alert))
+      }
     },
 
     closeTaskByAlert (alert) {
@@ -427,34 +430,21 @@ module.exports = {
     /**
      * Parses an `Alert` into a `Task` type to be created.
      *
+     * @param { import('./alertTemplate.service').AlertTemplate } alertTemplate - Alert template.
      * @param { Alert } alert - Payload alert.
      * @returns { import('asana').resources.Tasks.Type } Parsed task.
      */
-    parseAlertIntoTask (alert) {
+    parseAlertIntoTask (alertTemplate, alert) {
       try {
         return {
           name: `[${alert.apiKey}][${alert.count || 1}x] ${alert.data.message}`,
           workspace: this.settings.asana.workspace,
-          memberships: this.getMembershipsByAlertType(alert.type),
-          notes: alert.data.message
+          memberships: alertTemplate.memberships,
+          notes: alertTemplate.description
         }
       } catch (error) {
         throw new Errors.MoleculerError('There\'s a problem at alert parsing', 400, error.message, alert)
       }
-    },
-
-    /**
-     * Discover task memberships by the given alert type.
-     * This will choose in which project/section the task will be created.
-     *
-     * @param { string } alertType - Alert type.
-     * @returns { import('asana').resources.Membership[] } Matched memberships found.
-     */
-    getMembershipsByAlertType (alertType) {
-      return this.settings.alerts[alertType].map(({ project, section }) => ({
-        project: this.settings.asana.projects[project].id,
-        section: this.settings.asana.projects[project].sections[section]
-      }))
     },
 
     async getWorkspaceProjects () {
