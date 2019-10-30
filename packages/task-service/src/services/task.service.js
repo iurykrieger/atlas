@@ -1,8 +1,8 @@
 const Asana = require('asana')
-const { Errors } = require('moleculer')
+const { MongooseError, AsanaError } = require('../utils/errors')
 const DbService = require('moleculer-db')
 const MongooseAdapter = require('moleculer-db-adapter-mongoose')
-const TaskModel = require('./models/task')
+const TaskModel = require('../models/task')
 
 /**
  * @typedef Alert
@@ -12,17 +12,6 @@ const TaskModel = require('./models/task')
  * @property { object } data
  * @property { string } data.message
  */
-class AsanaError extends Errors.MoleculerError {
-  constructor (msg, error) {
-    super(`${msg}: ${error.message}`, error.status, 'ASANA_ERROR', error.value)
-  }
-}
-
-class MongooseError extends Errors.MoleculerError {
-  constructor (msg, error) {
-    super(`${msg}: ${error.message}`, error.status, 'MONGOOSE_ERROR', error.value)
-  }
-}
 
 module.exports = {
   name: 'task',
