@@ -8,7 +8,7 @@
     "start": "moleculer-runner --hot services",
     "ci": "jest --watch",
     "test": "jest --coverage",
-    "lint": "eslint test services *.js --fix"
+    "lint": "eslint test src *.js --fix"
   },
   "keywords": [
     "microservices",

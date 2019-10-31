@@ -190,8 +190,12 @@ module.exports = {
      *
      * @param { Alert } alert - Payload alert.
      */
-    'alert.updated' (alert) {
-
+    async 'alert.updated' (alert) {
+      try {
+        await this.updateTaskOccurrencesByAlert(alert)
+      } catch (error) {
+        this.logger.error(error)
+      }
     }
   },
 
@@ -378,16 +382,33 @@ module.exports = {
     },
 
     /**
+     * Update task ocurrences based on payload alert information.
+     *
+     * @param { Alert } alert - Payload alert.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Updated task.
+     */
+    async updateTaskOccurrencesByAlert (alert) {
+      if (!alert.id || !alert.count) {
+        throw new Errors.MoleculerError('No alert id or count found', 400, 'TASK_SERVICE', alert)
+      }
+
+      const task = await this.getTaskByAlert(alert)
+
+      if (task) {
+        return this.updateTaskOccurrences(task, new Date(), alert.count)
+      }
+    },
+
+    /**
      * Updates Asana task occurrence information.
      *
-     * @param { string } gid - Asana task id.
+     * @param { import('asana').resources.Tasks.Type } task - Database task.
      * @param { Date } ocurrenceDate - Date of the last occurrence.
      * @param { number } count - Current number of occurrences.
      * @returns { Promise.<import('asana').resources.Tasks.Type> } Database updated task.
      */
-    async updateTaskOccurrences (gid, ocurrenceDate, count) {
+    async updateTaskOccurrences (task, ocurrenceDate, count) {
       try {
-        const task = await this.adapter.findById(gid)
         const date = ocurrenceDate.toLocaleDateString(
           'pt-BR',
           {
@@ -404,7 +425,7 @@ module.exports = {
         const ocurrenceRegex = /^[\W\w]+-----/
         const ocurrenceLabel = (count, lastOcurrence) => `Alerta ocorreu ${count}x.\nÚltimo em ${lastOcurrence}.\n-----\n`
 
-        return this.updateTask(gid, {
+        return this.updateTask(task.gid, {
           name: task.name.replace(/^(?:\[\d+x\])?\s*/, `[${count}x] `),
           notes: task.notes.match(ocurrenceRegex)
             ? task.notes.replace(ocurrenceRegex, ocurrenceLabel(count, date))
@@ -412,6 +433,21 @@ module.exports = {
         })
       } catch (error) {
         throw new AsanaError('Could not update task occurences', error)
+      }
+    },
+
+    /**
+     * Gets the correlated Asana task to the given payload alert.
+     *
+     * @param { Alert } alert - Payload alert.
+     * @returns { import('asana').resources.Tasks.Type } Related task found.
+     */
+    async getTaskByAlert (alert) {
+      try {
+        const task = await this.adapter.findOne({ alert: alert.id })
+        return task
+      } catch (error) {
+        throw new MongooseError(`There's been a problem finding the task related to alert "${alert.id}"`, error)
       }
     },
 

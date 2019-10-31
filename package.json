@@ -10,6 +10,7 @@
     "postinstall": "lerna bootstrap --hoist",
     "postdev": "npm run docker:down",
     "restart": "docker-compose restart",
+    "lint": "lerna run lint",
     "logs": "docker-compose logs -f",
     "logs:rest-api-gateway": "docker-compose logs -f rest-api-gateway",
     "logs:task-service": "docker-compose logs -f task-service"
