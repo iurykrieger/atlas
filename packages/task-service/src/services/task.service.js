@@ -175,15 +175,23 @@ module.exports = {
      * @param { Alert } alert - Payload alert.
      */
     async 'alert.created' (alert) {
-      this.createTaskByAlert(alert)
+      try {
+        await this.createTaskByAlert(alert)
+      } catch (error) {
+        this.logger.error(error)
+      }
     },
     /**
      * Closes the task corresponding to the received alert payload.
      *
      * @param { Alert } alert - Payload alert.
      */
-    'alert.closed' (alert) {
-
+    async 'alert.closed' (alert) {
+      try {
+        await this.closeTaskByAlert(alert)
+      } catch (error) {
+        this.logger.error(error)
+      }
     },
     /**
      * Updates the task ocurrences corresponding to the received alert payload.
@@ -205,6 +213,21 @@ module.exports = {
   methods: {
 
     /**
+     * Gets the correlated Asana task to the given payload alert.
+     *
+     * @param { Alert } alert - Payload alert.
+     * @returns { import('asana').resources.Tasks.Type } Related task found.
+     */
+    async getTaskByAlert (alert) {
+      try {
+        const task = await this.adapter.findOne({ alert: alert.id })
+        return task
+      } catch (error) {
+        throw new MongooseError(`There's been a problem finding the task related to alert "${alert.id}"`, error)
+      }
+    },
+
+    /**
      * Creates a Asana Task based on a payload alert.
      *
      * @param { Alert } alert - Payload alert.
@@ -219,8 +242,40 @@ module.exports = {
       }
     },
 
-    closeTaskByAlert (alert) {
-      // TODO: Close task by alert payload operation.
+    /**
+     * Update task ocurrences based on payload alert information.
+     *
+     * @param { Alert } alert - Payload alert.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Updated task.
+     */
+    async updateTaskOccurrencesByAlert (alert) {
+      if (!alert.id || !alert.count) {
+        throw new Errors.MoleculerError('No alert id or count found', 400, 'TASK_SERVICE', alert)
+      }
+
+      const task = await this.getTaskByAlert(alert)
+
+      if (task) {
+        return this.updateTaskOccurrences(task, new Date(), alert.count)
+      }
+    },
+
+    /**
+     * Closes the related Asana task based on payload alert information.
+     *
+     * @param { Alert } alert - Payload alert.
+     * @returns { Promise.<import('asana').resources.Tasks.Type> } Closed task.
+     */
+    async closeTaskByAlert (alert) {
+      if (!alert.id) {
+        throw new Errors.MoleculerError('No alert id found', 400, 'TASK_SERVICE', alert)
+      }
+
+      const task = await this.getTaskByAlert(alert)
+
+      if (task) {
+        return this.closeTask(task.gid)
+      }
     },
 
     /**
@@ -382,24 +437,6 @@ module.exports = {
     },
 
     /**
-     * Update task ocurrences based on payload alert information.
-     *
-     * @param { Alert } alert - Payload alert.
-     * @returns { Promise.<import('asana').resources.Tasks.Type> } Updated task.
-     */
-    async updateTaskOccurrencesByAlert (alert) {
-      if (!alert.id || !alert.count) {
-        throw new Errors.MoleculerError('No alert id or count found', 400, 'TASK_SERVICE', alert)
-      }
-
-      const task = await this.getTaskByAlert(alert)
-
-      if (task) {
-        return this.updateTaskOccurrences(task, new Date(), alert.count)
-      }
-    },
-
-    /**
      * Updates Asana task occurrence information.
      *
      * @param { import('asana').resources.Tasks.Type } task - Database task.
@@ -433,21 +470,6 @@ module.exports = {
         })
       } catch (error) {
         throw new AsanaError('Could not update task occurences', error)
-      }
-    },
-
-    /**
-     * Gets the correlated Asana task to the given payload alert.
-     *
-     * @param { Alert } alert - Payload alert.
-     * @returns { import('asana').resources.Tasks.Type } Related task found.
-     */
-    async getTaskByAlert (alert) {
-      try {
-        const task = await this.adapter.findOne({ alert: alert.id })
-        return task
-      } catch (error) {
-        throw new MongooseError(`There's been a problem finding the task related to alert "${alert.id}"`, error)
       }
     },
 
