@@ -34,7 +34,7 @@ const TaskSchema = mongoose.Schema({
       name: { type: String, required: true }
     }, { _id: false })
   ],
-  alert: { type: String }
+  alert: { type: String, unique: true, dropDups: true }
 }, {
   toObject: {
     transform: function (doc, ret) {
