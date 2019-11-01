@@ -162,6 +162,13 @@ module.exports = {
       handler () {
         return this.getWorkspaceProjects()
       }
+    },
+
+    syncTasksByEvents: {
+      handler (ctx) {
+        console.log(ctx.meta)
+        return true
+      }
     }
   },
 
