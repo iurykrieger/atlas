@@ -19,6 +19,7 @@ services:
       - ./packages/rest-api-gateway:/home/node/node_app/app
     depends_on:
       - redis
+      - mongo
       - task-service
       - alert-service
     networks:
@@ -35,7 +36,22 @@ services:
       - ./packages/task-service:/home/node/node_app/app
     depends_on:
       - redis
-      - mongodb
+      - mongo
+    networks:
+      - internal
+
+  integration-service:
+    build:
+      context: packages/integration-service
+    image: atlas-integration-service
+    env_file: packages/integration-service/env/docker-compose.env
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - ./packages/integration-service:/home/node/node_app/app
+    depends_on:
+      - redis
+      - mysql
     networks:
       - internal
 
@@ -50,7 +66,7 @@ services:
       - ./packages/alert-service:/home/node/node_app/app
     depends_on:
       - redis
-      - mongodb
+      - mongo
     networks:
       - internal
 
@@ -66,13 +82,26 @@ services:
     networks:
       - internal
 
-  mongodb:
+  mongo:
     image: mongo:latest
-    container_name: atlas-mongodb
+    container_name: atlas-mongo
     ports:
       - "27017:27017"
     volumes:
-      - ./database/mongodb:/data/db
+      - ./database/mongo:/data/db
+    networks:
+      - internal
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_PASSWORD: "atlas"
+      MYSQL_ROOT_PASSWORD: "atlas"
+      MYSQL_DATABASE: "atlas"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/mysql:/var/lib/mysql
     networks:
       - internal
 
