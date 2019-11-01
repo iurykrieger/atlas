@@ -1,0 +1,36 @@
+{
+  "action": "Create",
+  "alert": {
+    "alertId": "b959d9a6-2ac5-4e08-b3b9-addff1367077-1542012104016",
+    "message": "[DC] [cec] Warning (maximumAvailablePercentageChange) while processing feed",
+    "tags": [
+      "apiKey:cec",
+      "atd",
+      "dc-arnaldo",
+      "dc-arnaldo-validation"
+    ],
+    "tinyId": "6121",
+    "entity": "",
+    "alias": "dc-arnaldo.validation.cec:maximumAvailablePercentageChange",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "The following warning was found during semantic validation of feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {&quot;maximumAvailablePercentageChange&quot;: 1, &quot;maximumHoursWithoutSuccessfulImport&quot;: 168, &quot;minimumAvailablePercentage&quot;: 63}, &quot;apiKey&quot;: &quot;cec&quot;, &quot;feedId&quot;: &quot;0&quot;, &quot;updateType&quot;: &quot;full&quot;}, &quot;datetime&quot;: &quot;2018-11-07T10:21:00.001Z&quot;, &quot;id&quot;: &quot;706447ba-24f1-4c6a-994d-14a890effe29&quot;, &quot;parsedUrl&quot;: &quot;s3://dc-custom-feeds/json/cec/0/cec-0-2018-11-07T10:21:00.001Z-706447ba-24f1-4c6a-994d-14a890effe29.json.gz&quot;, &quot;productCount&quot;: 21269, &quot;validation&quot;: false}:\n\n        Number of available products decreased more than expected. AvailablePercentageChange : 93.8774328081557%, MaximumAvailablePercentageChange (threshold): 1%.\n        \n        To see logs related to this feed import, see:\n        https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-11-06T10:27:49.000Z&amp;to=2018-11-07T13:27:49.000Z&amp;q=%22706447ba-24f1-4c6a-994d-14a890effe29%22\n        \n        To see recent logs related to this apiKey, see:\n        https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22cec%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  },
+  "source": {
+    "name": "35.168.8.192",
+    "type": "API"
+  },
+  "integrationName": "Webhook-TAM",
+  "integrationId": "75d1e86f-475f-484f-8b6f-0a3a276de9b5",
+  "integrationType": "Webhook"
+}

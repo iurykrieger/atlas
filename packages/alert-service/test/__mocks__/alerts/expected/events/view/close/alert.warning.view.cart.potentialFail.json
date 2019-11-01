@@ -1,0 +1,28 @@
+{
+  "id": "[DC][prophetheus] cart_views {\"apiKey\": \"pontofrio\"}",
+  "status": "closed",
+  "apiKey": "pontofrio",
+  "type": "alert.warning.view.cart.potentialFail",
+  "data": {
+    "alertId": "136cbecc-a36c-4837-b26a-0e08e53ab89a-1540912203362",
+    "message": "[DC][prophetheus] cart_views {\"apiKey\": \"pontofrio\"}",
+    "tags": [
+      "dc-prophetheus",
+      "atd",
+      "int"
+    ],
+    "tinyId": "6431",
+    "entity": "",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "[DC][prophetheus] cart_views {\"apiKey\": \"pontofrio\"}",
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "priority": "P3",
+    "source": "dc-ops"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "action": "Close",
+  "alert": {
+    "alertId": "34121dc3-1901-475d-9940-8dc1b76d2993-1542038657368",
+    "message": "[DC] [jake][mobly-v5] Error: RuntimeError while processing feed",
+    "tags": [
+      "apiKey:mobly-v5",
+      "atd",
+      "dc-jake",
+      "dc-jake-internal",
+      "feedId:11"
+    ],
+    "tinyId": "8117",
+    "entity": "",
+    "alias": "dc-jake.mobly-v5:RuntimeError",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "An error (RuntimeError(&apos;Download failed with unknown exception in all retries.&apos;, {&apos;download_info&apos;: {&apos;headers&apos;: {&apos;Last-Modified&apos;: &apos;Sun, 11 Nov 2018 14:01:57 GMT&apos;, &apos;ETag&apos;: &apos;W/&quot;5be83655-87344a&quot;&apos;, &apos;X-Server&apos;: &apos;ip-10-0-2-65&apos;, &apos;Set-Cookie&apos;: &apos;X-Noda=V2; path=/; domain=.mobly.com.br&apos;, &apos;Content-Length&apos;: &apos;622096&apos;, &apos;Date&apos;: &apos;Mon, 12 Nov 2018 16:02:08 GMT&apos;, &apos;Vary&apos;: &apos;Accept-Encoding&apos;, &apos;Server&apos;: &apos;nginx&apos;, &apos;Content-Encoding&apos;: &apos;gzip&apos;, &apos;Connection&apos;: &apos;keep-alive&apos;, &apos;Content-Type&apos;: &apos;text/xml&apos;}}, &apos;last_exception&apos;: &apos;  File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 92, in download_file\n    preprocessing_fun(tmp_path, dest_path, info[&quot;download_info&quot;]) or {}\n  File &quot;/opt/dc-jake/parser/mobly-v5.py&quot;, line 14, in &lt;lambda&gt;\n    FILE_PREPROCESSING = lambda source, destination, download_info: pre_parsing_actions(source, destination, download_info)\n  File &quot;/opt/dc-jake/parser/mobly-v5.py&quot;, line 153, in pre_parsing_actions\n    raise RuntimeError(&quot;File is older than acceptable.&quot;)\nRuntimeError: File is older than acceptable.\n&apos;, &apos;start_preprocessing&apos;: 1542038529.0115578, &apos;preprocessing_info&apos;: {}, &apos;start_downloading&apos;: 1542038528.7265465, &apos;downloaded_size&apos;: 8860746, &apos;attempts&apos;: 7, &apos;download_time&apos;: 0.24858379364013672, &apos;downloaded_md5&apos;: &apos;773a1209e858dd09144d0f430d26ab5d&apos;})) occurred while processing parsed feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {&quot;maximumHoursWithoutSuccessfulImport&quot;: 168}, &quot;apiKey&quot;: &quot;mobly-v5&quot;, &quot;feedId&quot;: &quot;11&quot;, &quot;updateType&quot;: &quot;incremental&quot;}, &quot;datetime&quot;: &quot;2018-11-12T16:00:00.121Z&quot;, &quot;downloadedUrl&quot;: &quot;http://www.mobly.com.br/neemu-partial-11.xml?TSMP&quot;, &quot;force&quot;: false, &quot;id&quot;: &quot;45014e6c-2fe4-42c3-8d54-fb1fe8f65988&quot;, &quot;validation&quot;: false}\n  File &quot;/opt/dc-jake/module/download.py&quot;, line 72, in run\n    **download_extra_args)\n  File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 124, in download_file\n    raise RuntimeError(&quot;Download failed with unknown exception in all retries.&quot;, info)\n\nTo see data from recent imports or force import, see XML Importer tab at:\nhttp://wonka.chaordicsystems.com/pinspect/client/mobly-v5\nTo see logs related to this feed import, see:\nhttps://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-11-11T16:04:17.000Z&amp;to=2018-11-12T19:04:17.000Z&amp;q=%2245014e6c-2fe4-42c3-8d54-fb1fe8f65988%22\nTo see recent logs related to this apiKey, see:\nhttps://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22mobly-v5%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  },
+  "source": {
+    "name": "35.168.8.192",
+    "type": "API"
+  },
+  "integrationName": "Webhook-TAM",
+  "integrationId": "75d1e86f-475f-484f-8b6f-0a3a276de9b5",
+  "integrationType": "Webhook"
+}

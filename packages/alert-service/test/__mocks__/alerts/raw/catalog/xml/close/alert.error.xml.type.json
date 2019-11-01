@@ -1,0 +1,37 @@
+{
+  "action": "Close",
+  "alert": {
+    "alertId": "b959d9a6-2ac5-4e08-b3b9-addff1367077-1542012104016",
+    "message": "[DC] [jake][vivara] Error: TypeError while processing feed",
+    "tags": [
+      "apiKey:vivara",
+      "atd",
+      "dc-jake",
+      "dc-jake-internal",
+      "feedId:11"
+    ],
+    "tinyId": "8049",
+    "entity": "",
+    "alias": "dc-jake.vivara:TypeError",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "An error (TypeError(&quot;&apos;NoneType&apos; object is not subscriptable&quot;,)) occurred while processing parsed feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {}, &quot;apiKey&quot;: &quot;vivara&quot;, &quot;feedId&quot;: &quot;__validation-file__&quot;, &quot;parserModule&quot;: &quot;vivara_bundle&quot;, &quot;updateType&quot;: &quot;incremental&quot;}, &quot;datetime&quot;: &quot;2018-11-12T08:40:00.092Z&quot;, &quot;downloadedUrl&quot;: &quot;https://www.vivara.com.br/resources/sociomantic_Vivara.xml&quot;, &quot;force&quot;: false, &quot;id&quot;: &quot;925a0d36-6abc-4791-b876-5a7466fb1e71&quot;, &quot;validation&quot;: false}\n        File &quot;/opt/dc-jake/module/parse.py&quot;, line 115, in run\n          validation_set.update_validation_set(conf[&quot;parserModule&quot;], incoming_path, feed_message)\n        File &quot;/opt/dc-jake/module/validation_set.py&quot;, line 60, in update_validation_set\n          valset.create(parser_module_name, incoming_path, feed_message, sample_size)\n        File &quot;/opt/dc-jake/module/validation_set.py&quot;, line 176, in create\n          src_prods = self._sample_products(parser, source_path, feed_message, sample_size)\n        File &quot;/opt/dc-jake/module/validation_set.py&quot;, line 398, in _sample_products\n          for (total, (src, prod)) in enumerate(parser.process_source(source_path, feed_message=feed_message), 1):\n        File &quot;/opt/dc-jake/utils/parser_loader/base_parser.py&quot;, line 101, in parse\n          yield parse_fun(source_product)\n        File &quot;/opt/dc-jake/module/validation_set.py&quot;, line 385, in wrapped_parse_fun\n          parsed_prod = parse_fun(copy.deepcopy(src))\n        File &quot;/opt/dc-jake/utils/parser_loader/base_parser.py&quot;, line 173, in parse_fun\n          product = make_product(source_product)\n        File &quot;/opt/dc-jake/utils/parser_loader/xml_parser.py&quot;, line 59, in _make_product_with_lxml_parser\n          return make_product(root)\n        File &quot;/opt/dc-jake/utils/parser_loader/base_parser.py&quot;, line 163, in make_product_with_feed_message\n          return make_product(source_product, feed_message)\n        File &quot;/opt/dc-jake/parser/vivara_bundle.py&quot;, line 26, in make_product\n          product[&apos;images&apos;][&apos;default&apos;] = image\n      \n      To see data from recent imports or force import, see XML Importer tab at:\n      http://wonka.chaordicsystems.com/pinspect/client/vivara\n      To see logs related to this feed import, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-11-11T08:41:43.000Z&amp;to=2018-11-12T11:41:43.000Z&amp;q=%22925a0d36-6abc-4791-b876-5a7466fb1e71%22\n      To see recent logs related to this apiKey, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22vivara%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  },
+  "source": {
+    "name": "35.168.8.192",
+    "type": "API"
+  },
+  "integrationName": "Webhook-TAM",
+  "integrationId": "75d1e86f-475f-484f-8b6f-0a3a276de9b5",
+  "integrationType": "Webhook"
+}

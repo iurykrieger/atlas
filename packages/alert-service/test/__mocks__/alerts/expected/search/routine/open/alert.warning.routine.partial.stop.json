@@ -1,0 +1,34 @@
+{
+  "id": "c3920f6565a40b3d7dbe42d1e7f73b8976506adfede07b197dd4b3a128f846e1",
+  "status": "open",
+  "apiKey": "procorrer",
+  "type": "alert.warning.routine.partial.stop",
+  "data": {
+    "updatedAt": 1420452193166002000,
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "teams": [
+      "team1",
+      "team2"
+    ],
+    "recipients": [
+      "recipient1",
+      "recipient2"
+    ],
+    "message": "[Prometheus]: [FIRING:1] search-routine-parcial-stopped-with-warning procorrer (cluster4-rotina-01 search-rotina prometheus-search",
+    "username": "fili@ifountain.com",
+    "alertId": "2297eb5b-b708-4706-8d75-ecae5d97a0f3-1542111187036",
+    "details": {
+      "apikey": "procorrer",
+      "alertname": "search-routine-parcial-stopped-with-warning"
+    },
+    "description": "Search Routine 'Parcial' stopped with warnings. Search Routine 'Parcial' stopped with warnings for apikey procorrer\n        Alerts Firing:\n        Labels:\n        - alertname = search-routine-parcial-stopped-with-warning\n        - apikey = procorrer\n        - instance = cluster4-rotina-01\n        - job = search-rotina\n        - lnc_team = prometheus-search\n        - priority = P3\n        - rotina = parcial\n        - severity = critical\n        - teams = atendimento\n        Annotations:\n        - description = Search Routine 'Parcial' stopped with warnings.\n        - summary = Search Routine 'Parcial' stopped with warnings for apikey procorrer\n        Source: http://745462c57121:9090/graph?g0.expr=changes%28search_rotina_status%7Bapikey%21~%22.%2A%28Undefined%7Cinactive%29.%2A%22%2Cinstance%3D~%22cluster.%2A%22%2Cjob%3D%22search-rotina%22%2Crotina%3D%22parcial%22%7D%5B1h%5D%29+%3D%3D+2&g0.tab=1",
+    "source": "fili@ifountain.com",
+    "tinyId": "8412",
+    "createdAt": 1420452191104,
+    "userId": "daed1180-0ce8-438b-8f8e-57e1a5920a2d",
+    "entity": ""
+  }
+}

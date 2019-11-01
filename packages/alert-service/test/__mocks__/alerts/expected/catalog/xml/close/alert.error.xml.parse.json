@@ -1,0 +1,31 @@
+{
+  "id": "dc-jake.geelbe:XMLParserError",
+  "status": "closed",
+  "apiKey": "geelbe",
+  "type": "alert.error.xml.parse",
+  "data": {
+    "alertId": "e6cc5dea-152b-4af8-ac06-6eed78117d01-1542040652553",
+    "message": "[DC] [jake][geelbe] Error: XMLParserError while processing feed",
+    "tags": [
+      "apiKey:geelbe",
+      "atd",
+      "dc-jake",
+      "feedId:0"
+    ],
+    "tinyId": "8121",
+    "entity": "",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "An error (&lt;XMLParserError: Error (-3): The last SKU didn&apos;t have an end tag&gt;) occurred while processing parsed feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {&quot;maximumAvailablePercentageChange&quot;: 30, &quot;maximumHoursWithoutSuccessfulImport&quot;: 168, &quot;minimumAvailablePercentage&quot;: 73}, &quot;apiKey&quot;: &quot;geelbe&quot;, &quot;feedId&quot;: &quot;0&quot;, &quot;updateType&quot;: &quot;full&quot;}, &quot;datetime&quot;: &quot;2018-11-12T16:36:00.001Z&quot;, &quot;downloadedUrl&quot;: &quot;http://www.geelbe.com/chaordics/feed&quot;, &quot;force&quot;: false, &quot;id&quot;: &quot;258eaf42-8a24-49dc-b93e-7c86771a676f&quot;, &quot;validation&quot;: false}\n        File &quot;/opt/dc-jake/module/parse.py&quot;, line 73, in run\n          for (product_count, product) in enumerate(non_empty_products, 1):\n        File &quot;/opt/dc-jake/module/parse.py&quot;, line 71, in &lt;genexpr&gt;\n          non_empty_products = (product for product in parser.process_source(incoming_path, feed_message=feed_message, interactive_debug=debug) if product)\n        File &quot;/opt/dc-jake/utils/parser_loader/base_parser.py&quot;, line 106, in parse\n          for product in pool.imap_unordered(source_products):\n        File &quot;/opt/dc-jake/utils/threadpool.py&quot;, line 74, in imap_unordered\n          yield self._get_output()\n        File &quot;/opt/dc-jake/utils/threadpool.py&quot;, line 62, in _get_output\n          raise output\n        File &quot;/opt/dc-jake/utils/threadpool.py&quot;, line 41, in _populate_work_queue\n          for _, thing in  zip(self.flush_iter, iterable):\n        File &quot;xml_aggregator.pyx&quot;, line 64, in aggregate (xml_aggregator.c:1929)\n      \n      To see data from recent imports or force import, see XML Importer tab at:\n      http://wonka.chaordicsystems.com/pinspect/client/geelbe\n      To see logs related to this feed import, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-11-11T16:37:32.000Z&amp;to=2018-11-12T19:37:32.000Z&amp;q=%22258eaf42-8a24-49dc-b93e-7c86771a676f%22\n      To see recent logs related to this apiKey, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22geelbe%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "action": "Create",
+  "alert": {
+    "alertId": "5edabdf7-013b-4de2-a664-c391a3b52354-1542022211045",
+    "message": "[DC] [jake][natue] Error: HTTPError while processing feed",
+    "tags": [
+      "apiKey:natue",
+      "atd",
+      "dc-jake",
+      "dc-jake-internal",
+      "feedId:11"
+    ],
+    "tinyId": "8049",
+    "entity": "",
+    "alias": "dc-jake.natue:HTTPError",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "An error (HTTPError('429 Client Error: Too Many Requests for url: https://api.opsgenie.com/v2/alerts?query=status%3A+%22open%22+AND+tag%3A+%22dc-jake%22+AND+tag%3A+%22apiKey%3Anatue%22+AND+tag%3A+%22feedId%3A0%22&apos;,)) occurred while processing parsed feed from feed message {\"configuration\": {\"alertConfiguration\": {\"maximumAvailablePercentageChange\": 30, \"maximumHoursWithoutSuccessfulImport\": 168}, \"apiKey\": \"natue\", \"feedId\": \"0\", \"updateType\": \"full\"}, \"datetime\": \"2018-11-12T11:30:00.027Z\", \"downloadedUrl\": \"https://static.natue.com.br/BR/export/feeds/chaordic/chaordic.xml\";, \"force\": false, \"id\": \"d1b64dce-2420-43ec-8749-012771396686\", \"validation\": false}\nFile \"/opt/dc-jake/module/parse.py\", line 109, in run\nutils.alerts.close_all(conf[\"apiKey\"], conf[\"feedId\"])\nFile \"/opt/dc-jake/utils/alerts.py\", line 61, in close_all\nfor alert in utils.opsgenie_client.list_open_alerts(tags=[\"dc-jake\", \"apiKey:\"+apiKey, \"feedId:\"+feedId]):\nFile \"/opt/dc-jake/utils/opsgenie_client.py\", line 61, in list_open_alerts\nresponse.raise_for_status()\nFile \"/opt/dc-jake/venv/lib/python3.4/site-packages/requests/models.py\", line 940, in raise_for_status\nraise HTTPError(http_error_msg, response=self)\n\nTo see data from recent imports or force import, see XML Importer tab at:\nhttp://wonka.chaordicsystems.com/pinspect/client/natue\nTo see logs related to this feed import, see:\nhttps://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&from=2018-11-11T11:30:10.000Z&to=2018-11-12T14:30:10.000Z&q=%22d1b64dce-2420-43ec-8749-012771396686%22\nTo see recent logs related to this apiKey, see:\nhttps://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&relative=86400&q=%22natue%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  },
+  "source": {
+    "name": "35.168.8.192",
+    "type": "API"
+  },
+  "integrationName": "Webhook-TAM",
+  "integrationId": "75d1e86f-475f-484f-8b6f-0a3a276de9b5",
+  "integrationType": "Webhook"
+}

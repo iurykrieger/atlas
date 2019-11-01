@@ -1,0 +1,31 @@
+{
+  "id": "dc-jake.comprafoodservice:NoProductsError",
+  "status": "closed",
+  "apiKey": "comprafoodservice",
+  "type": "alert.error.xml.noProducts",
+  "data": {
+    "alertId": "602d502f-f6fd-46fb-a079-5d4b1d09913f-1540520571327",
+    "message": "[DC] [jake][comprafoodservice] Error: NoProductsError while processing feed",
+    "tags": [
+      "apiKey:comprafoodservice",
+      "atd",
+      "dc-jake",
+      "feedId:83"
+    ],
+    "tinyId": "8049",
+    "entity": "",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "An error (NoProductsError(No products were returned by the parser)) occurred while processing parsed feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {&quot;maximumAvailablePercentageChange&quot;: 30, &quot;maximumHoursWithoutSuccessfulImport&quot;: 168}, &quot;apiKey&quot;: &quot;comprafoodservice&quot;, &quot;feedId&quot;: &quot;83&quot;, &quot;salesChannel&quot;: &quot;83&quot;, &quot;updateType&quot;: &quot;full&quot;}, &quot;datetime&quot;: &quot;2018-10-26T02:02:00.001Z&quot;, &quot;downloadedUrl&quot;: &quot;https://www.compraunilever.com.br/static/partners/chaordic-b2b.xml&quot;, &quot;id&quot;: &quot;a7bc396a-0a39-4d82-ac5b-40e859e863e9&quot;, &quot;validation&quot;: false}\n        File &quot;/opt/dc-jake/module/parse.py&quot;, line 79, in run\n          raise NoProductsError(&quot;No products were returned by the parser&quot;)\n      \n      To see data from recent imports or force import, see XML Importer tab at:\n      http://wonka.chaordicsystems.com/pinspect/client/comprafoodservice\n      To see logs related to this feed import, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-10-25T02:22:51.000Z&amp;to=2018-10-26T05:22:51.000Z&amp;q=%22a7bc396a-0a39-4d82-ac5b-40e859e863e9%22\n      To see recent logs related to this apiKey, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22comprafoodservice%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  }
+}

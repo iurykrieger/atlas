@@ -1,0 +1,28 @@
+{
+	"id": "[DC][prophetheus] page_views {\"apiKey\": \"chillibeans\"}",
+	"status": "closed",
+	"apiKey": "chillibeans",
+	"type": "alert.warning.view.page.potentialFail",
+	"data": {
+		"alertId": "80ab888f-487f-480a-9148-e958f25b75d3-1541857819191",
+		"message": "[DC][prophetheus] page_views {\"apiKey\": \"chillibeans\"}",
+		"tags": [
+			"dc-prophetheus",
+			"atd",
+			"int"
+		],
+		"tinyId": "7330",
+		"entity": "",
+		"createdAt": 1535461323437,
+		"updatedAt": 1535461323437000000,
+		"username": "Alert API",
+		"userId": "",
+		"description": "[DC][prophetheus] page_views {\"apiKey\": \"chillibeans\"}",
+		"teams": [
+			"afa919f9-5c24-4b55-b60e-2548bdda7abf",
+			"e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+		],
+		"priority": "P3",
+		"source": "dc-ops"
+	}
+}

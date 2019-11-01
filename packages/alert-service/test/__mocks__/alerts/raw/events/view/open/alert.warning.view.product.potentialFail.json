@@ -1,0 +1,37 @@
+{
+	"action": "Create",
+	"alert": {
+		"alertId": "322b9d88-8343-4051-88b2-cba9e832272b-1542032414903",
+		"message": "[DC][prophetheus] product_views {\"apiKey\": \"chillibeans\"}",
+		"tags": [
+			"dc-prophetheus",
+			"atd",
+			"int"
+		],
+		"tinyId": "6431",
+		"entity": "",
+		"alias": "[DC][prophetheus] product_views {\"apiKey\": \"chillibeans\"}",
+		"createdAt": 1535461323437,
+		"details": {
+			"checkTask": "product_views",
+			"link": "http://prophetheus.dc.chaordicsystems.com:5000/details?task=product_views#group=%7B%22apiKey%22%3A+%22chillibeans%22%7D&start=1542025178.8208208&end=-1",
+			"serie": "{\"apiKey\": \"chillibeans\"}"
+		},
+		"updatedAt": 1535461323437000000,
+		"username": "Alert API",
+		"userId": "",
+		"description": "[DC][prophetheus] product_views {\"apiKey\": \"chillibeans\"}",
+		"teams": [
+			"afa919f9-5c24-4b55-b60e-2548bdda7abf",
+			"e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+		],
+		"priority": "P3",
+		"source": "dc-ops"
+	},
+	"source": {
+		"type": "API"
+	},
+	"integrationName": "Webhook-TAM",
+	"integrationId": "75d1e86f-475f-484f-8b6f-0a3a276de9b5",
+	"integrationType": "Webhook"
+}

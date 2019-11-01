@@ -1,0 +1,31 @@
+{
+  "id": "dc-jake.uattb2b:DownloadError",
+  "status": "closed",
+  "apiKey": "uattb2b",
+  "type": "alert.error.xml.download",
+  "data": {
+    "alertId": "5fc20209-2ab7-485f-9657-0cfabe5f1593-1542041778431",
+    "message": "[DC] [jake][uattb2b] Error: DownloadError while processing feed",
+    "tags": [
+      "apiKey:uattb2b",
+      "atd",
+      "dc-jake",
+      "feedId:11"
+    ],
+    "tinyId": "8124",
+    "entity": "",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "An error (DownloadError({&apos;message&apos;: &apos;Service Unavailable&apos;, &apos;id&apos;: &apos;httpError:503&apos;}, {&apos;last_exception&apos;: &apos;  File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 188, in download_http\n    req.raise_for_status()\n  File &quot;/opt/dc-jake/venv/lib/python3.4/site-packages/requests/models.py&quot;, line 940, in raise_for_status\n    raise HTTPError(http_error_msg, response=self)\nrequests.exceptions.HTTPError: 503 Server Error: Service Unavailable for url: https://b2b.uatt.com.br/google/products.xml\n\nDuring handling of the above exception, another exception occurred:  File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 75, in download_file\n    info[&quot;download_info&quot;] = (download_fun(endpoint, tmp_path, auth) or {})\n  File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 30, in &lt;lambda&gt;\n    &quot;http&quot;:  lambda endpoint, dest_path, auth: download_http(endpoint, dest_path, auth),\n  File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 200, in download_http\n    raise DownloadError(error_id, req.reason)\nutils.exception.download_error.DownloadError: Service Unavailable\n&apos;, &apos;start_downloading&apos;: 1542041649.4928682, &apos;attempts&apos;: 7})) occurred while processing parsed feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {&quot;maximumAvailablePercentageChange&quot;: 30, &quot;maximumHoursWithoutSuccessfulImport&quot;: 168, &quot;minimumAvailablePercentage&quot;: 75}, &quot;apiKey&quot;: &quot;uattb2b&quot;, &quot;feedId&quot;: &quot;0&quot;, &quot;updateType&quot;: &quot;full&quot;}, &quot;datetime&quot;: &quot;2018-11-12T16:52:00.011Z&quot;, &quot;downloadedUrl&quot;: &quot;http://b2b.uatt.com.br/google/products.xml&quot;, &quot;force&quot;: false, &quot;id&quot;: &quot;6962ab4a-35ce-4b9c-a545-ca15c3c88e3f&quot;, &quot;validation&quot;: false}\n        File &quot;/opt/dc-jake/module/download.py&quot;, line 72, in run\n          **download_extra_args)\n        File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 122, in download_file\n          raise last_exception\n        File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 75, in download_file\n          info[&quot;download_info&quot;] = (download_fun(endpoint, tmp_path, auth) or {})\n        File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 30, in &lt;lambda&gt;\n          &quot;http&quot;:  lambda endpoint, dest_path, auth: download_http(endpoint, dest_path, auth),\n        File &quot;/opt/dc-jake/utils/downloader.py&quot;, line 200, in download_http\n          raise DownloadError(error_id, req.reason)\n      \n      To see data from recent imports or force import, see XML Importer tab at:\n      http://wonka.chaordicsystems.com/pinspect/client/uattb2b\n      To see logs related to this feed import, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-11-11T16:56:18.000Z&amp;to=2018-11-12T19:56:18.000Z&amp;q=%226962ab4a-35ce-4b9c-a545-ca15c3c88e3f%22\n      To see recent logs related to this apiKey, see:\n      https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22uattb2b%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  }
+}

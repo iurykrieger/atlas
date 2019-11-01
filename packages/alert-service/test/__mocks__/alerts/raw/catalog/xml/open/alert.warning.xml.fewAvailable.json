@@ -1,0 +1,36 @@
+{
+  "action": "Create",
+  "alert": {
+    "alertId": "c44c3071-e0c4-4bfa-b80a-3241e6e56da8-1541066528090",
+    "message": "[DC] [lojasrede] Warning (fewAvailableProducts) while processing feed",
+    "tags": [
+      "apiKey:lojasrede",
+      "atd",
+      "dc-arnaldo",
+      "dc-arnaldo-validation"
+    ],
+    "tinyId": "8117",
+    "entity": "",
+    "alias": "dc-arnaldo.validation.lojasrede:fewAvailableProducts",
+    "createdAt": 1535461323437,
+    "updatedAt": 1535461323437000000,
+    "username": "Alert API",
+    "userId": "",
+    "description": "The following warning was found during semantic validation of feed from feed message {&quot;configuration&quot;: {&quot;alertConfiguration&quot;: {&quot;maximumAvailablePercentageChange&quot;: 30, &quot;maximumHoursWithoutSuccessfulImport&quot;: 168, &quot;minimumAvailablePercentage&quot;: 44}, &quot;apiKey&quot;: &quot;lojasrede&quot;, &quot;feedId&quot;: &quot;0&quot;, &quot;updateType&quot;: &quot;full&quot;}, &quot;datetime&quot;: &quot;2018-11-01T09:40:00.007Z&quot;, &quot;id&quot;: &quot;635a80c0-d5ac-4bda-95af-437f790bad0b&quot;, &quot;parsedUrl&quot;: &quot;s3://dc-custom-feeds/json/lojasrede/0/lojasrede-0-2018-11-01T09:40:00.007Z-635a80c0-d5ac-4bda-95af-437f790bad0b.json.gz&quot;, &quot;productCount&quot;: 10303, &quot;validation&quot;: false}:\n\n        Number of available products (4524 out of a total of 10303) is low (under 44.0%). Product status count: {&apos;AVAILABLE&apos;: 4524, &apos;UNAVAILABLE&apos;: 5779}\n        \n        To see logs related to this feed import, see:\n        https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=absolute&amp;from=2018-10-31T10:02:07.000Z&amp;to=2018-11-01T13:02:07.000Z&amp;q=%22635a80c0-d5ac-4bda-95af-437f790bad0b%22\n        \n        To see recent logs related to this apiKey, see:\n        https://graylog.chaordicsystems.com/streams/58405c98f4449a06f001abf9/search?rangetype=relative&amp;relative=86400&amp;q=%22lojasrede%22",
+    "recipients": [],
+    "teams": [
+      "afa919f9-5c24-4b55-b60e-2548bdda7abf",
+      "e4e9ae6d-cec6-4cd1-9fb1-a4c4a710fc83"
+    ],
+    "details": {},
+    "priority": "P3",
+    "source": "dc-ops"
+  },
+  "source": {
+    "name": "35.168.8.192",
+    "type": "API"
+  },
+  "integrationName": "Webhook-TAM",
+  "integrationId": "75d1e86f-475f-484f-8b6f-0a3a276de9b5",
+  "integrationType": "Webhook"
+}

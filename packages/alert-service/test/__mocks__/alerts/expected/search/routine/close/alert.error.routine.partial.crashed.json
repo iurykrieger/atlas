@@ -1,0 +1,30 @@
+{
+  "id": "44dc50b3610bbb3a1493f3ff574d2d550fb905a5d80a2e445d5f377f16c7d63f",
+  "status": "closed",
+  "apiKey": "procorrer",
+  "type": "alert.error.routine.partial.crashed",
+  "data": {
+    "updatedAt": 1420452193166002000,
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "teams": [
+      "team1",
+      "team2"
+    ],
+    "recipients": [
+      "recipient1",
+      "recipient2"
+    ],
+    "message": "[Prometheus]: [FIRING:1] search-routine-parcial-crashed procorrer (cluster4-rotina-01 search-rotina prometheus-search",
+    "username": "fili@ifountain.com",
+    "alertId": "052652ac-5d1c-464a-812a-7dd18bbfba8c",
+    "description": "Search Routine 'Parcial' is crashed on the last 5m. Search Routine 'Parcial' is crashed for apikey procorrer\n        Alerts Firing:\n        Labels:\n        - alertname = search-routine-parcial-crashed\n        - apikey = procorrer\n        - instance = cluster4-rotina-01\n        - job = search-rotina\n        - lnc_team = prometheus-search\n        - priority = P3\n        - rotina = parcial\n        - severity = critical\n        - teams = atendimento\n        Annotations:\n        - description = Search Routine 'Parcial' is crashed on the last 5m.\n        - summary = Search Routine 'Parcial' is crashed for apikey procorrer\n        Source: http://745462c57121:9090/graph?g0.expr=search_rotina_status%7Bjob%3D%22search-rotina%22%2Crotina%3D%22parcial%22%7D+%3D%3D+3&g0.tab=1",
+    "source": "fili@ifountain.com",
+    "tinyId": "23",
+    "createdAt": 1420452191104,
+    "userId": "daed1180-0ce8-438b-8f8e-57e1a5920a2d",
+    "entity": ""
+  }
+}
