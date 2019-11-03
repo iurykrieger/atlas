@@ -174,9 +174,20 @@ module.exports = {
     },
 
     sync: {
+      params: {
+        events: {
+          type: 'array',
+          items: {
+            type: 'object',
+            props: {
+              type: { type: 'string' },
+              resource: { type: 'string' }
+            }
+          }
+        }
+      },
       handler (ctx) {
-        console.log(ctx.meta)
-        return true
+        return this.syncTasksByEvents(ctx.params.events)
       }
     },
 
@@ -246,6 +257,24 @@ module.exports = {
         return task
       } catch (error) {
         throw new MongooseError(`There's been a problem finding the task related to alert "${alert.id}"`, error)
+      }
+    },
+
+    async getDatabaseTaskById (gid) {
+      try {
+        const task = await this.adapter.findById(gid)
+        return task
+      } catch (error) {
+        throw new MongooseError(`There's been a problem finding the Database task related to "${gid}"`, error)
+      }
+    },
+
+    async getAsanaTaskById (gid) {
+      try {
+        const task = await this.client.tasks.findById(gid)
+        return task
+      } catch (error) {
+        throw new AsanaError(`There's been a problem finding the Asana task related to "${gid}"`, error)
       }
     },
 
@@ -548,6 +577,39 @@ module.exports = {
         return webhooks
       } catch (error) {
         throw new AsanaError('Could not get the workspace webhooks', error)
+      }
+    },
+
+    /**
+     * Synchronizes Asana task current state within current database state.
+     *
+     * @param { string } gid - Asana task id.
+     * @returns { import('asana').resources.Tasks.Type } Database updated task state.
+     */
+    async syncTask (gid) {
+      const databaseTask = await this.getDatabaseTaskById(gid)
+
+      if (!databaseTask) {
+        return null
+      }
+
+      const asanaTask = await this.getAsanaTaskById(gid)
+
+      return this.updateDatabaseTask(asanaTask)
+    },
+
+    async syncTasksByEvents (events) {
+      try {
+        const uniqueIds = events.reduce((taskIds, { type, resource: taskId }) => {
+          if (type === 'task' && !taskIds.includes(taskId)) {
+            taskIds.push(taskId)
+          }
+          return taskIds
+        }, [])
+        const tasks = await Promise.all(uniqueIds.map(this.syncTask))
+        return tasks
+      } catch (error) {
+        throw new AsanaError('There\'s been a problem with task sync', error)
       }
     }
   },
