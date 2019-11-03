@@ -3,6 +3,7 @@ const { Errors } = require('moleculer')
 const { MongooseError, AsanaError } = require('../utils/errors')
 const DbService = require('moleculer-db')
 const MongooseAdapter = require('moleculer-db-adapter-mongoose')
+const axios = require('axios')
 const TaskModel = require('../models/task')
 
 /**
@@ -19,20 +20,28 @@ module.exports = {
   /**
    * Database adapter.
    */
-  mixins: [DbService],
+  mixins: [DbService, axios],
   adapter: new MongooseAdapter(process.env.DATABASE_CONNECTION_URI, { useUnifiedTopology: true }),
   model: TaskModel,
   /**
    * Service settings.
    */
   settings: {
-    $secureSettings: ['asana.token'],
+    $secureSettings: ['asana.token', 'axios.headers.Authorization'],
     asana: {
       headers: {
         'asana-enable': 'string_ids,new_sections'
       },
       workspace: '2653227806782', // Chaordic
       token: process.env.ASANA_TOKEN
+    },
+    axios: {
+      baseURL: 'https://app.asana.com/api/1.0/',
+      timeout: 5000,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${process.env.ASANA_TOKEN}`
+      }
     }
   },
 
@@ -123,7 +132,7 @@ module.exports = {
       }
     },
 
-    getUser: {
+    user: {
       cache: true,
       /**
        * Retrieves current client user info.
@@ -135,7 +144,7 @@ module.exports = {
       }
     },
 
-    getWorkspaceByName: {
+    workspace: {
       cache: true,
       params: {
         name: { type: 'string' }
@@ -151,7 +160,7 @@ module.exports = {
       }
     },
 
-    getProjects: {
+    projects: {
       cache: true,
 
       /**
@@ -164,10 +173,16 @@ module.exports = {
       }
     },
 
-    syncTasksByEvents: {
+    sync: {
       handler (ctx) {
         console.log(ctx.meta)
         return true
+      }
+    },
+
+    webhooks: {
+      handler (ctx) {
+        return this.getWorkspaceWebhooks()
       }
     }
   },
@@ -521,6 +536,19 @@ module.exports = {
       } catch (error) {
         throw new AsanaError('Could not get the workspace projects', error)
       }
+    },
+
+    async getWorkspaceWebhooks () {
+      try {
+        const { data: { data: webhooks } } = await this.axios.get('/webhooks', {
+          params: {
+            workspace: this.settings.asana.workspace
+          }
+        })
+        return webhooks
+      } catch (error) {
+        throw new AsanaError('Could not get the workspace webhooks', error)
+      }
     }
   },
 
@@ -531,6 +559,11 @@ module.exports = {
     this.client = Asana.Client
       .create({ defaultHeaders: this.settings.asana.headers })
       .useAccessToken(this.settings.asana.token)
+    this.axios = axios.create({
+      baseURL: this.settings.axios.baseURL,
+      timeout: this.settings.axios.timeout,
+      headers: this.settings.axios.headers
+    })
   },
 
   /**

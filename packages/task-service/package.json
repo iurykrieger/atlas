@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "asana": "^0.17.3",
+    "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "ioredis": "^4.14.0",
     "moleculer": "^0.13.9",
