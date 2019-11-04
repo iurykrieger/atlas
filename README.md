@@ -97,5 +97,10 @@ npm run test:watch -- --scope task-service
 
 ## Deployment
 
-?
+You just need to release a new version with this npm script:
 
+```bash
+npm run release
+```
+
+It will generate new versions based on the modified packages. Each new version will trigger a circleci deployment to refresh Kubernetes images.

@@ -10,6 +10,7 @@
     "docker:down": "docker-compose down",
     "postinstall": "lerna bootstrap --hoist",
     "postdev": "npm run docker:down",
+    "release": "lerna version",
     "lint": "lerna run lint",
     "test": "lerna run --parallel test",
     "test:watch": "lerna run --parallel test:watch",
