@@ -1,6 +1,6 @@
 {
   "name": "alert-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Micro-service to deduplicate and storage alert information.",
   "private": true,
   "scripts": {

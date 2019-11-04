@@ -1,6 +1,6 @@
 {
   "name": "rest-api-gateway",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Micro-service to serve other using REST API",
   "scripts": {
     "dev": "moleculer-runner --env --repl --hot services",
@@ -21,9 +21,9 @@
     "moleculer-repl": "^0.5.7"
   },
   "dependencies": {
-    "moleculer-web": "^0.8.5",
     "ioredis": "^4.14.0",
-    "moleculer": "^0.13.9"
+    "moleculer": "^0.13.9",
+    "moleculer-web": "^0.8.5"
   },
   "engines": {
     "node": ">= 8.x.x"
