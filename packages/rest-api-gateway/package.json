@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "moleculer-runner --env --repl --hot services",
     "start": "moleculer-runner --hot services",
-    "ci": "jest --watch",
+    "test:watch": "jest --watch",
     "test": "jest --coverage",
     "lint": "eslint test services *.js --fix"
   },

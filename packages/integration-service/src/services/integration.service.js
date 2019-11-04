@@ -44,7 +44,7 @@ module.exports = {
   actions: {
     hello: {
       cache: true,
-      handler(ctx) {
+      handler (ctx) {
         return new Promise(resolve => {
           console.log('chamou')
           setTimeout(() => resolve('hello'), 2000)
@@ -70,21 +70,21 @@ module.exports = {
   /**
    * Service created lifecycle event handler.
    */
-  created() {
+  created () {
 
   },
 
   /**
    * Service started lifecycle event handler.
    */
-  started() {
+  started () {
 
   },
 
   /**
    * Service stopped lifecycle event handler.
    */
-  stopped() {
+  stopped () {
 
   }
 }

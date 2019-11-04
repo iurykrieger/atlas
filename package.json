@@ -5,15 +5,15 @@
     "cli": "moleculer connect Redis --ns atlas",
     "dev": "npm run docker:up; npm run cli",
     "docker:build": "docker-compose build --no-cache",
+    "docker:restart": "docker-compose restart",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "postinstall": "lerna bootstrap --hoist",
     "postdev": "npm run docker:down",
-    "restart": "docker-compose restart",
     "lint": "lerna run lint",
-    "logs": "docker-compose logs -f",
-    "logs:rest-api-gateway": "docker-compose logs -f rest-api-gateway",
-    "logs:task-service": "docker-compose logs -f task-service"
+    "test": "lerna run --parallel test",
+    "test:watch": "lerna run --parallel test:watch",
+    "logs": "docker-compose logs -f"
   },
   "devDependencies": {
     "lerna": "^3.18.3",

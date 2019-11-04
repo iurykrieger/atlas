@@ -1,12 +1,12 @@
 {
-  "name": "@atlas/task-service",
+  "name": "task-service",
   "version": "1.0.0",
   "description": "Micro-service to integrate with task managers.",
   "private": true,
   "scripts": {
     "dev": "moleculer-runner --env --repl --hot services",
     "start": "moleculer-runner --hot services",
-    "ci": "jest --watch",
+    "test:watch": "jest --watch",
     "test": "jest --coverage",
     "lint": "eslint test src *.js --fix"
   },
