@@ -1,5 +1,6 @@
 # 🌍 Atlas
 
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
 ![Repo status](https://www.repostatus.org/badges/latest/active.svg)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
@@ -81,13 +82,7 @@ npm run lint -- --scope task-service
 
 ### Testing
 
-You can run tests for every packages using the same test command you would in a classic Node project:
-
-```bash
-npm run test
-```
-
-Or you can run the continous test environment to a specific package or to all of them with the `test:watch` command:
+You can run tests for every packages using the same test command you would in a classic Node project. Or you can run the continous test environment to a specific package or to all of them with the `test:watch` command:
 
 ```bash
 # To run all tests once with coverage report
