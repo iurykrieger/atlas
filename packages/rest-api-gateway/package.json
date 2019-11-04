@@ -1,5 +1,5 @@
 {
-  "name": "@atlas/rest-api-gateway",
+  "name": "rest-api-gateway",
   "version": "1.0.0",
   "description": "Micro-service to serve other using REST API",
   "scripts": {

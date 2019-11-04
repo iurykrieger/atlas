@@ -1,5 +1,5 @@
 {
-  "name": "@atlas/alert-service",
+  "name": "alert-service",
   "version": "1.0.0",
   "description": "Micro-service to deduplicate and storage alert information.",
   "private": true,
